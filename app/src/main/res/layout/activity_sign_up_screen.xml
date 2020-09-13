@@ -3,59 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@mipmap/ic_background_background"
     android:layout_height="match_parent"
     tools:context=".SignUpScreen">
-
-    <ImageView
-        android:id="@+id/backgroundImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/backgroundString"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_background_foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="0dp"
         android:layout_height="213dp"
-        android:layout_marginTop="32dp"
         android:contentDescription="@string/app_logoString"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.096"
         app:srcCompat="@mipmap/ic_logo_icon_foreground" />
 
     <EditText
         android:id="@+id/signUpPhoneNumberEditText"
         android:layout_width="300dp"
-        android:inputType="phone"
-        android:maxLength="10"
         android:layout_height="60dp"
         android:autofillHints=""
-        android:layout_marginTop="80dp"
         android:background="@drawable/custom_edittext"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="@string/phoneNumberHintString"
         android:fontFamily="@font/montserrat"
+        android:hint="@string/phoneNumberHintString"
+        android:inputType="phone"
+        android:maxLength="10"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:textColorHint="#FFFFFF"
         android:text="@string/phoneNumberString"
         android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         android:textSize="18sp"
+        app:drawableStartCompat="@drawable/ic_mobilenumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
-        app:drawableStartCompat="@drawable/ic_mobilenumber" />
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView" />
 
     <EditText
         android:id="@+id/usernameEditText"
@@ -77,7 +64,6 @@
         android:textColorHint="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpPhoneNumberEditText" />
 
@@ -108,7 +94,7 @@
         android:id="@+id/signUpButton"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/montserrat"
         android:text="@string/sign_uppString"
@@ -123,12 +109,15 @@
         android:id="@+id/alreadyAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/already_have_an_accountString"
         android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/logInOnSignUpPageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/logInOnSignUpPageButton"
@@ -140,8 +129,9 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

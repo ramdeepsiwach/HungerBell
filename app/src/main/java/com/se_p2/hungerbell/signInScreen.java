@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.se_p2.hungerbell.Common.Common;
 import com.se_p2.hungerbell.Model.*;
 
 import androidx.annotation.NonNull;
@@ -32,11 +33,11 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_screen);
 
-        phoneNumber=(EditText)findViewById(R.id.phoneNumberEditText);
-        password=(EditText)findViewById(R.id.passswordEditText);
-        loginButton=(Button)findViewById(R.id.logInButton);
-        forgotPasswordButton=(Button)findViewById(R.id.forgotPasswordButton);
-        signUpButton=(Button)findViewById(R.id.signUpOnLogInButton);
+        phoneNumber=findViewById(R.id.phoneNumberEditText);
+        password=findViewById(R.id.passswordEditText);
+        loginButton=findViewById(R.id.logInButton);
+        forgotPasswordButton=findViewById(R.id.forgotPasswordButton);
+        signUpButton=findViewById(R.id.signUpOnLogInButton);
 
         loginButton.setOnClickListener(this);
         forgotPasswordButton.setOnClickListener(this);
@@ -44,7 +45,7 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
 
         //Intiate Firebase
         database=FirebaseDatabase.getInstance();
-        user_table=database.getReference("User");
+        user_table=database.getReference(Common.USER_REF);
     }
 
     @Override
@@ -88,8 +89,8 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
                             password.requestFocus();
                         }else {
                             if (user != null && user.getPassword().equals(password.getText().toString())) {
-                                Toast.makeText(signInScreen.this, "Sign In Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(signInScreen.this,HomeScreen.class);
+                                Intent intent=new Intent(signInScreen.this,HomeActivity.class);
+                                Common.currentUser=user;
                                 startActivity(intent);
                             } else {
                                 password.setError("Wrong Password !");

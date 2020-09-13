@@ -21,4 +21,31 @@
     <string name="verify_your_numberString">Verify your Number</string>
     <string name="Get_StartedString">Button</string>
     <string name="get_startedString">Get Started</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="currentUserNameString">Deep</string>
+    <string name="menuString">Menu</string>
+    <string name="cartString">Cart</string>
+    <string name="ordersString">Orders</string>
+    <string name="sign_outString">Sign Out</string>
+    <string name="name_of_menuString">Name of Menu</string>
+    <string name="categoryString">Category</string>
+    <string name="food_list_string">Food List</string>
+    <string name="food_imageString">Food Image</string>
+    <string name="name_of_foodString">Name of Food</string>
+    <string name="_0String">$0</string>
+    <string name="favourite_imageString">Favourite Image</string>
+    <string name="food_nameString">Food Name</string>
+    <string name="_1_000String">1,000</string>
+    <string name="descriptionString">Description</string>
+    <string name="show_commentString">Show Comment</string>
 </resources>

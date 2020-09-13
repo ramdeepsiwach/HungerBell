@@ -172,7 +172,7 @@ public class VerifyScreen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-                            User user=new User(name,password);
+                            User user=new User(name,password,phone);
                             user_table.child(phone).setValue(user);
                             Toast.makeText(VerifyScreen.this,"Account Created !",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(VerifyScreen.this, signInScreen.class);
