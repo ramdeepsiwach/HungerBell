@@ -9,7 +9,6 @@ public class CommentModel {
 
     public CommentModel() {
     }
-
     public float getRatingValue() {
         return ratingValue;
     }

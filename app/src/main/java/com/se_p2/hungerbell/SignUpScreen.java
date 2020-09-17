@@ -19,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
-    EditText phoneNumberEditText,userNameEditText,signUpPasswordEditText;
+    EditText phoneNumberEditText,userNameEditText,signUpPasswordEditText,signUpAddressEditText;
     Button signUpButton,logInButton;
-    ProgressDialog myDialog;
+    ProgressDialog myDialog = new ProgressDialog(this);
 
     DatabaseReference user_table;
     FirebaseDatabase database;
@@ -29,12 +29,13 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
-        phoneNumberEditText=(EditText) findViewById(R.id.signUpPhoneNumberEditText);
-        userNameEditText=(EditText)findViewById(R.id.usernameEditText);
-        signUpPasswordEditText=(EditText) findViewById(R.id.signUpPassswordEditText);
+        phoneNumberEditText=findViewById(R.id.signUpPhoneNumberEditText);
+        userNameEditText=findViewById(R.id.usernameEditText);
+        signUpPasswordEditText=findViewById(R.id.signUpPassswordEditText);
+        signUpAddressEditText=findViewById(R.id.addressEditText);
 
-        signUpButton=(Button)findViewById(R.id.signUpButton);
-        logInButton=(Button)findViewById(R.id.logInOnSignUpPageButton);
+        signUpButton=findViewById(R.id.signUpButton);
+        logInButton=findViewById(R.id.logInOnSignUpPageButton);
 
         signUpButton.setOnClickListener(this);
         logInButton.setOnClickListener(this);
@@ -47,7 +48,6 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        myDialog=new ProgressDialog(SignUpScreen.this);
         myDialog.setMessage("Please wait...");
         myDialog.show();
         switch (view.getId()){
@@ -66,6 +66,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         final String phoneNumber = phoneNumberEditText.getText().toString();
         final String password = signUpPasswordEditText.getText().toString();
         final String name = userNameEditText.getText().toString();
+        final String address=signUpAddressEditText.getText().toString();
         if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 10) {
             myDialog.dismiss();
             phoneNumberEditText.setError("Phone number cannot be empty or less than 10 digits !");
@@ -93,6 +94,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         signUPDetails.putString("PHONE", phoneNumber);
                         signUPDetails.putString("NAME", name);
                         signUPDetails.putString("PASSWORD", password);
+                        signUPDetails.putString("Address",address);
                         intent.putExtras(signUPDetails);
                         startActivity(intent);
                     }

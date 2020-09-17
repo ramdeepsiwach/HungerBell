@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Hunger Bells</string>
     <string name="app_logoString">App Logo</string>
-    <string name="phoneNumberString"></string>
+    <string name="phoneNumberString" />
     <string name="phoneNumberHintString">Phone Number</string>
-    <string name="passwordString"></string>
+    <string name="passwordString" />
     <string name="passwordHintString">Password</string>
     <string name="log_inString">LOG IN</string>
     <string name="forgot_passwordString">Forgot Password ?</string>
@@ -13,8 +13,8 @@
     <string name="otpString">OTP</string>
     <string name="user_nameHintString">User Name</string>
     <string name="sign_uppString">Sign Up</string>
-    <string name="usernameString"></string>
-    <string name="otp"></string>
+    <string name="usernameString" />
+    <string name="otp" />
     <string name="one_time_passwordString">One Time Password</string>
     <string name="verifyButtonString">VERIFY</string>
     <string name="already_have_an_accountString">Already have an account ?</string>
@@ -48,4 +48,11 @@
     <string name="_1_000String">1,000</string>
     <string name="descriptionString">Description</string>
     <string name="show_commentString">Show Comment</string>
+    <string name="nameString">Name</string>
+    <string name="add_onString">Add On</string>
+    <string name="exampleString">Example</string>
+    <string name="sizeString">Size</string>
+    <string name="addressString">Address</string>
+    <string name="addonString">Addon</string>
+    <string name="searchString">Search</string>
 </resources>

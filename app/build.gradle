@@ -43,7 +43,7 @@ dependencies {
 
     //Libraries
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -61,4 +61,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.github.andremion:counterfab:1.2.1'
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.3'
+
+    //Room Persistence
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
+    implementation "androidx.room:room-rxjava2:2.2.5"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

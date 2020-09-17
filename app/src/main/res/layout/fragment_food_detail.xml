@@ -170,6 +170,83 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:padding="8dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="@string/sizeString"
+                        android:textSize="22sp"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioGroup
+                        android:weightSum="3"
+                        android:orientation="horizontal"
+                        android:id="@+id/rdi_grp_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:padding="8dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/img_add_addon"
+                            android:text="@string/add_onString"
+                            android:textSize="22sp"
+                            android:fontFamily="@font/montserrat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="4dp"
+                            app:drawableEndCompat="@drawable/ic_add_box" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_user_selected_addon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    </com.google.android.material.chip.ChipGroup>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
             <Button
                 android:id="@+id/showCommentButton"
                 android:layout_width="match_parent"

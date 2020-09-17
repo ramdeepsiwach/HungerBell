@@ -30,7 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class VerifyScreen extends AppCompatActivity {
     EditText otpEditText;
     Button verifyButton,resendButton,backButton;
-    private String mVerificationId,name,password,phone;
+    private String mVerificationId,name,password,phone,address;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private FirebaseAuth mAuth;
     DatabaseReference user_table;
@@ -42,10 +42,10 @@ public class VerifyScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_screen);
         //Intialize edit text and buttons
-        otpEditText=(EditText)findViewById(R.id.otpEditText);
-        verifyButton=(Button)findViewById(R.id.verifyButton);
-        resendButton=(Button)findViewById(R.id.resendOtp);
-        backButton=(Button)findViewById(R.id.backButton);
+        otpEditText=findViewById(R.id.otpEditText);
+        verifyButton=findViewById(R.id.verifyButton);
+        resendButton=findViewById(R.id.resendOtp);
+        backButton=findViewById(R.id.backButton);
 
 
         //Intiate Firebase
@@ -59,6 +59,8 @@ public class VerifyScreen extends AppCompatActivity {
         phone = signUpDetails.getString("PHONE");
         name = signUpDetails.getString("NAME");
         password = signUpDetails.getString("PASSWORD");
+        address=signUpDetails.getString("Address");
+
 
         //Send OTP
         sendVerificationCode(phone);
@@ -172,7 +174,7 @@ public class VerifyScreen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-                            User user=new User(name,password,phone);
+                            User user=new User(phone,name,address,phone,password);
                             user_table.child(phone).setValue(user);
                             Toast.makeText(VerifyScreen.this,"Account Created !",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(VerifyScreen.this, signInScreen.class);
