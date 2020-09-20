@@ -1,6 +1,5 @@
 package com.se_p2.hungerbell.ui.foodDetail;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,24 +16,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-import dmax.dialog.SpotsDialog;
-
 import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -45,7 +28,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.se_p2.hungerbell.Common.Common;
+import com.se_p2.hungerbell.Database.CartDataSource;
+import com.se_p2.hungerbell.Database.CartDatabase;
+import com.se_p2.hungerbell.Database.CartItem;
+import com.se_p2.hungerbell.Database.LocalCartDataSource;
+import com.se_p2.hungerbell.EventBus.CouterCartEvent;
 import com.se_p2.hungerbell.Model.AddonModel;
 import com.se_p2.hungerbell.Model.CommentModel;
 import com.se_p2.hungerbell.Model.FoodModel;
@@ -53,12 +42,33 @@ import com.se_p2.hungerbell.Model.SizeModel;
 import com.se_p2.hungerbell.R;
 import com.se_p2.hungerbell.ui.comments.CommentFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import dmax.dialog.SpotsDialog;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class FoodDetailFragment extends Fragment implements TextWatcher {
+
+    private CartDataSource cartDataSource;
+    private CompositeDisposable compositeDisposable=new CompositeDisposable();
 
     private FoodDetailModel foodDetailModel;
     private Unbinder unbinder;
@@ -99,6 +109,102 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
             displayAddonList();
             addonBottomSheetDialog.show();
         }
+    }
+
+    @OnClick(R.id.cartButton)
+    void onCartItemAdd(){
+        CartItem cartItem=new CartItem();
+        cartItem.setUid(Common.currentUser.getUid());
+        cartItem.setUserPhone(Common.currentUser.getPhone());
+
+        cartItem.setFoodId(Common.selectedFood.getId());
+        cartItem.setFoodName(Common.selectedFood.getName());
+        cartItem.setFoodImage(Common.selectedFood.getImage());
+        cartItem.setFoodPrice(Double.parseDouble(String.valueOf(Common.selectedFood.getPrice())));
+        cartItem.setFoodQuantity(Integer.parseInt(numberButton.getNumber()));
+        cartItem.setFoodExtraPrice(Common.calculateExtraPrice(Common.selectedFood.getUserSelectedSize(),Common.selectedFood.getUserSelectedAddon()));
+
+        if(Common.selectedFood.getUserSelectedAddon()!=null){
+            cartItem.setFoodAddon(new Gson().toJson(Common.selectedFood.getUserSelectedAddon()));
+        }else{
+            cartItem.setFoodAddon("Default");
+        }
+
+        if(Common.selectedFood.getUserSelectedSize()!=null){
+            cartItem.setFoodSize(new Gson().toJson(Common.selectedFood.getUserSelectedSize()));
+        }else{
+            cartItem.setFoodSize("Default");
+        }
+
+        cartDataSource.getItemWithAllOptionsInCart(Common.currentUser.getUid(),
+                cartItem.getFoodId(),
+                cartItem.getFoodSize(),
+                cartItem.getFoodAddon())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CartItem>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CartItem cartItemFromDB) {
+                        if(cartItemFromDB.equals(cartItem)){
+                            cartItemFromDB.setFoodExtraPrice(cartItem.getFoodExtraPrice());
+                            cartItemFromDB.setFoodAddon(cartItem.getFoodAddon());
+                            cartItemFromDB.setFoodSize(cartItem.getFoodSize());
+                            cartItemFromDB.setFoodQuantity(cartItemFromDB.getFoodQuantity()+cartItem.getFoodQuantity());
+
+                            cartDataSource.updateCartItem(cartItemFromDB)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new SingleObserver<Integer>() {
+                                        @Override
+                                        public void onSubscribe(Disposable d) {
+
+                                        }
+
+                                        @Override
+                                        public void onSuccess(Integer integer) {
+                                            Toast.makeText(getContext(),"Update Cart Success",Toast.LENGTH_SHORT).show();
+                                            EventBus.getDefault().postSticky(new CouterCartEvent(true));
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            Toast.makeText(getContext(),"[UPDATE CART]"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }else{
+                            compositeDisposable.add(cartDataSource.insertOrReplaceAll(cartItem)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(()->{
+                                        Toast.makeText(getContext(),"Add to Cart Success",Toast.LENGTH_SHORT).show();
+                                        EventBus.getDefault().postSticky(new CouterCartEvent(true));
+                                    },throwable -> {
+                                        Toast.makeText(getContext(),"[CART ERROR]"+throwable.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if(e.getMessage().contains("empty")){
+                            compositeDisposable.add(cartDataSource.insertOrReplaceAll(cartItem)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(()->{
+                                        Toast.makeText(getContext(),"Add to Cart Success",Toast.LENGTH_SHORT).show();
+                                        EventBus.getDefault().postSticky(new CouterCartEvent(true));
+                                    },throwable -> {
+                                        Toast.makeText(getContext(),"[CART ERROR]"+throwable.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }));
+                        }else
+                            Toast.makeText(getContext(),"[GET CART]"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
@@ -185,6 +291,10 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     }
 
     private void initViews() {
+
+        cartDataSource=new LocalCartDataSource(CartDatabase.getInstance(getContext()).cartDAO());
+
+
         waitingDialog=new SpotsDialog.Builder().setCancelable(false).setContext(getContext()).build();
 
         addonBottomSheetDialog=new BottomSheetDialog(getContext(),R.style.DialogStyle);
@@ -357,5 +467,11 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
     }
 }

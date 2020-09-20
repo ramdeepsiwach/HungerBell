@@ -23,6 +23,7 @@ import com.se_p2.hungerbell.R;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,6 +98,7 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
                         @Override
                         public void onSuccess(CartItem cartItemFromDB) {
                             if(cartItemFromDB.equals(cartItem)){
+                                //Already in databse, just update
                                 cartItemFromDB.setFoodExtraPrice(cartItem.getFoodExtraPrice());
                                 cartItemFromDB.setFoodAddon(cartItem.getFoodAddon());
                                 cartItemFromDB.setFoodSize(cartItem.getFoodSize());
@@ -123,6 +125,7 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
                                             }
                                         });
                             }else{
+                                //item not available in cart
                                 compositeDisposable.add(cartDataSource.insertOrReplaceAll(cartItem)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
@@ -137,12 +140,13 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
 
                         @Override
                         public void onError(Throwable e) {
-                            if(e.getMessage().contains("empty")){
+                            if(Objects.requireNonNull(e.getMessage()).contains("empty")){
+                                //If cart is empty
                                 compositeDisposable.add(cartDataSource.insertOrReplaceAll(cartItem)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(()->{
-                                            Toast.makeText(context,"Add to Cart Success",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context,"Added to Cart Success",Toast.LENGTH_SHORT).show();
                                             EventBus.getDefault().postSticky(new CouterCartEvent(true));
                                         },throwable -> {
                                             Toast.makeText(context,"[CART ERROR]"+throwable.getMessage(),Toast.LENGTH_SHORT).show();

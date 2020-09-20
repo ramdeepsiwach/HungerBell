@@ -1,7 +1,6 @@
 package com.se_p2.hungerbell.ui.comments;
 
 import android.app.AlertDialog;
-import android.os.Binder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.se_p2.hungerbell.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

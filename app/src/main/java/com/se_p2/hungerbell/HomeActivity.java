@@ -8,10 +8,7 @@ import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.se_p2.hungerbell.Common.Common;
 import com.se_p2.hungerbell.Database.CartDataSource;
 import com.se_p2.hungerbell.Database.CartDatabase;
@@ -19,6 +16,8 @@ import com.se_p2.hungerbell.Database.LocalCartDataSource;
 import com.se_p2.hungerbell.EventBus.CategoryClick;
 import com.se_p2.hungerbell.EventBus.CouterCartEvent;
 import com.se_p2.hungerbell.EventBus.FoodItemClick;
+import com.se_p2.hungerbell.EventBus.HideFABCart;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,12 +39,10 @@ import io.reactivex.schedulers.Schedulers;
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    DatabaseReference category_table;
-    FirebaseDatabase database;
     TextView currentUserName;
     NavController navController;
 
-    private LocalCartDataSource cartDataSource;
+    private CartDataSource cartDataSource;
 
     @BindView(R.id.fab)
     CounterFab fab;
@@ -69,19 +66,13 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, Common.currentUser.getUid(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> navController.navigate(R.id.nav_cart));
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_menu, R.id.nav_food_list, R.id.nav_food_detail)
+                R.id.nav_menu, R.id.nav_food_list, R.id.nav_food_detail,R.id.nav_cart)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -135,6 +126,15 @@ public class HomeActivity extends AppCompatActivity {
     public void onFoodItemClick(FoodItemClick event){
         if(event.isSuccess()){
             navController.navigate(R.id.nav_food_detail);
+        }
+    }
+
+    @Subscribe( sticky= true,threadMode = ThreadMode.MAIN)
+    public void onHideFABEvent(HideFABCart event){
+        if(event.isHidden()){
+            fab.hide();
+        }else {
+            fab.show();
         }
     }
 

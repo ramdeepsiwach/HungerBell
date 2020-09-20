@@ -131,6 +131,7 @@ public class CartItem {
         if(obj instanceof CartItem)
             return false;
         CartItem cartItem=(CartItem)obj;
+        assert cartItem != null;
         return cartItem.getFoodId().equals(this.foodId)
                 && cartItem.getFoodAddon().equals(this.foodAddon)
                 && cartItem.getFoodSize().equals(this.foodSize);
