@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Hunger Bells</string>
     <string name="app_logoString">App Logo</string>
-    <string name="phoneNumberString" />
+    <string name="phoneNumberString">9817158944</string>
     <string name="phoneNumberHintString">Phone Number</string>
-    <string name="passwordString" />
+    <string name="passwordString">sumit</string>
     <string name="passwordHintString">Password</string>
     <string name="log_inString">LOG IN</string>
     <string name="forgot_passwordString">Forgot Password ?</string>
@@ -55,4 +55,20 @@
     <string name="addressString">Address</string>
     <string name="addonString">Addon</string>
     <string name="searchString">Search</string>
+    <string name="clear_cartString">Clear Cart</string>
+    <string name="priceString">100.0</string>
+    <string name="enter_your_addressString">Enter your address</string>
+    <string name="delivery_methodString">Delivery Method</string>
+    <string name="home_addressString">Home Address</string>
+    <string name="other_addressString">Other Address</string>
+    <string name="ship_current_addressString">Ship current address</string>
+    <string name="payment_methodString">Payment Method</string>
+    <string name="cash_on_deliveryString">Cash On Delivery</string>
+    <string name="braintreeString">Braintree</string>
+    <string name="enter_your_commentString">Enter your comment</string>
+    <string name="your_addressString">Your Address</string>
+    <string name="status_placedString">Status: Placed</string>
+    <string name="order_commentString">Order comment:</string>
+    <string name="order_numberString">Order Number:</string>
+    <string name="today_at_12_00_00_pmString">Today at:12:00:00 pm</string>
 </resources>

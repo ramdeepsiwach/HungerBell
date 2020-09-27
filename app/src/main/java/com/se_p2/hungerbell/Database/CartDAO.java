@@ -20,7 +20,7 @@ public interface CartDAO {
     @Query("SELECT SUM(foodQuantity) FROM Cart WHERE uid=:uid")
     Single<Integer> countItemInCart(String uid);
 
-    @Query("SELECT SUM((foodPrice+foodExtraPrice)*foodQuantity) from Cart WHERE uid=:uid")
+    @Query("SELECT SUM((foodPrice +foodExtraPrice)*foodQuantity) from Cart WHERE uid=:uid")
     Single<Double> sumPriceInCart(String uid);
 
     @Query("SELECT * from Cart WHERE uid=:uid AND foodId=:foodId")

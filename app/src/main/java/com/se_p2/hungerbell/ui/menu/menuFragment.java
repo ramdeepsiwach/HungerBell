@@ -21,7 +21,10 @@ import dmax.dialog.SpotsDialog;
 
 import com.se_p2.hungerbell.Adapter.MyCategoriesAdapter;
 import com.se_p2.hungerbell.Common.SpaceItemDecoration;
+import com.se_p2.hungerbell.EventBus.MenuItemBack;
 import com.se_p2.hungerbell.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class menuFragment extends Fragment {
 
@@ -77,5 +80,11 @@ public class menuFragment extends Fragment {
         });
         recycler_menu.setLayoutManager(layoutManager);
         recycler_menu.addItemDecoration(new SpaceItemDecoration(8));
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().postSticky(new MenuItemBack());
+        super.onDestroy();
     }
 }

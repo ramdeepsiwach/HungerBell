@@ -15,7 +15,8 @@
             android:id="@+id/img_cart"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:contentDescription="@null" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -29,7 +30,7 @@
 
                 <TextView
                     android:id="@+id/txt_food_name"
-                    android:text="Cart"
+                    android:text="@string/cartString"
                     android:fontFamily="@font/montserrat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
 
                 <TextView
                     android:id="@+id/txt_food_price"
-                    android:text="100.0"
+                    android:text="@string/priceString"
                     android:fontFamily="@font/montserrat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +65,7 @@
                 app:finalNumber="20"
                 app:initialNumber="1"
                 app:textColor="@color/white"
-                app:textSize="8sp"/>
+                app:textSize="6sp"/>
 
         </LinearLayout>
     </LinearLayout>

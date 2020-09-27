@@ -21,8 +21,11 @@ import butterknife.Unbinder;
 
 import com.se_p2.hungerbell.Adapter.MyFoodListAdapter;
 import com.se_p2.hungerbell.Common.Common;
+import com.se_p2.hungerbell.EventBus.MenuItemBack;
 import com.se_p2.hungerbell.Model.FoodModel;
 import com.se_p2.hungerbell.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -59,5 +62,10 @@ public class FoodListFragment extends Fragment {
         recyclerView_food_list.setHasFixedSize(true);
         recyclerView_food_list.setLayoutManager(new LinearLayoutManager(getContext()));
         layoutAnimationController= AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_item_from_left);
+    }
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().postSticky(new MenuItemBack());
+        super.onDestroy();
     }
 }

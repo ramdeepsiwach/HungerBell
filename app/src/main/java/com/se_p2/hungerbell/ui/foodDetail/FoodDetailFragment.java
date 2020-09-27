@@ -35,6 +35,7 @@ import com.se_p2.hungerbell.Database.CartDatabase;
 import com.se_p2.hungerbell.Database.CartItem;
 import com.se_p2.hungerbell.Database.LocalCartDataSource;
 import com.se_p2.hungerbell.EventBus.CouterCartEvent;
+import com.se_p2.hungerbell.EventBus.MenuItemBack;
 import com.se_p2.hungerbell.Model.AddonModel;
 import com.se_p2.hungerbell.Model.CommentModel;
 import com.se_p2.hungerbell.Model.FoodModel;
@@ -96,6 +97,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     Button showCommentButton;
     @BindView(R.id.number_button)
     ElegantNumberButton numberButton;
+
     @BindView(R.id.rdi_grp_size)
     RadioGroup rdi_grp_size;
     @BindView(R.id.img_add_addon)
@@ -150,7 +152,9 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
                     @Override
                     public void onSuccess(CartItem cartItemFromDB) {
-                        if(cartItemFromDB.equals(cartItem)){
+                        if(cartItemFromDB.getFoodId().equals(cartItem.getFoodId())
+                        && cartItemFromDB.getFoodSize().equals(cartItem.getFoodSize())
+                        && cartItemFromDB.getFoodAddon().equals(cartItem.getFoodAddon())){
                             cartItemFromDB.setFoodExtraPrice(cartItem.getFoodExtraPrice());
                             cartItemFromDB.setFoodAddon(cartItem.getFoodAddon());
                             cartItemFromDB.setFoodSize(cartItem.getFoodSize());
@@ -206,7 +210,6 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                     }
                 });
     }
-
 
     private void displayAddonList() {
         if(Common.selectedFood.getAddon().size()>0){
@@ -277,7 +280,6 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
     }
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         foodDetailModel =
@@ -294,10 +296,9 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
         cartDataSource=new LocalCartDataSource(CartDatabase.getInstance(getContext()).cartDAO());
 
-
         waitingDialog=new SpotsDialog.Builder().setCancelable(false).setContext(getContext()).build();
 
-        addonBottomSheetDialog=new BottomSheetDialog(getContext(),R.style.DialogStyle);
+        addonBottomSheetDialog=new BottomSheetDialog(requireContext(),R.style.DialogStyle);
         View layout_addon_display=getLayoutInflater().inflate(R.layout.addon_display,null);
         chip_group_addon=layout_addon_display.findViewById(R.id.chip_group_addon);
         edt_search=layout_addon_display.findViewById(R.id.edt_search);
@@ -311,12 +312,12 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     }
 
     private void displayUserSelectedAddon() {
-        if(Common.selectedFood.getUserSelectedAddon()!=null && Common.selectedFood.getUserSelectedAddon().size()>0){
+        if(Common.selectedFood.getUserSelectedAddon()!=null && Common.selectedFood.getUserSelectedAddon().size()>0) {
             chip_group_user_selected_addon.removeAllViews();
-            for(AddonModel addonModel:Common.selectedFood.getUserSelectedAddon()){
-                Chip chip=(Chip)getLayoutInflater().inflate(R.layout.layout_chip_with_delete_icon,null);
+            for (AddonModel addonModel : Common.selectedFood.getUserSelectedAddon()) {
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.layout_chip_with_delete_icon, null);
                 chip.setText(new StringBuilder(addonModel.getName()).append("(+$")
-                .append(addonModel.getPrice()).append(")"));
+                        .append(addonModel.getPrice()).append(")"));
                 chip.setClickable(false);
                 chip.setOnCloseIconClickListener(view -> {
                     //Remove when user select delete
@@ -326,7 +327,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                 });
                 chip_group_user_selected_addon.addView(chip);
             }
-        }else if(Common.selectedFood.getUserSelectedAddon().size()==0){
+        }else{
             chip_group_user_selected_addon.removeAllViews();
         }
     }
@@ -397,6 +398,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle(Common.selectedFood.getName());
 
         //Size
+
         for(SizeModel sizeModel:Common.selectedFood.getSize()){
             RadioButton radioButton=new RadioButton(getContext());
             radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -418,7 +420,9 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
             RadioButton radioButton=(RadioButton)rdi_grp_size.getChildAt(0);
             radioButton.setChecked(true);
         }
-
+        numberButton.setOnValueChangeListener((view, oldValue, newValue) -> {
+            calculateTotalPrice();
+        });
         calculateTotalPrice();
     }
 
@@ -431,10 +435,13 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                 totalPrice+=Double.parseDouble(addonModel.getPrice().toString());
             }
         }
-        totalPrice+=Double.parseDouble(Common.selectedFood.getUserSelectedSize().getPrice().toString());
+        //size
+        if(Common.selectedFood.getUserSelectedSize()!=null)
+            totalPrice+=Double.parseDouble(Common.selectedFood.getUserSelectedSize().getPrice().toString());
+
         displayPrice=totalPrice*(Integer.parseInt(numberButton.getNumber()));
         displayPrice=Math.round(displayPrice*100.0/100.0);
-        food_price.setText(new StringBuilder("").append(Common.fomatPrice(displayPrice)).toString());
+        food_price.setText(new StringBuilder("$").append(Common.fomatPrice(displayPrice)).toString());
     }
 
     @Override
@@ -473,5 +480,10 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     public void onStop() {
         compositeDisposable.clear();
         super.onStop();
+    }
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().postSticky(new MenuItemBack());
+        super.onDestroy();
     }
 }

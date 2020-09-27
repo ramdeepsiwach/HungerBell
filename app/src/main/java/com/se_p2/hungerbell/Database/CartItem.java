@@ -124,16 +124,4 @@ public class CartItem {
         this.uid = uid;
     }
 
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if(obj==this)
-            return true;
-        if(obj instanceof CartItem)
-            return false;
-        CartItem cartItem=(CartItem)obj;
-        assert cartItem != null;
-        return cartItem.getFoodId().equals(this.foodId)
-                && cartItem.getFoodAddon().equals(this.foodAddon)
-                && cartItem.getFoodSize().equals(this.foodSize);
-    }
 }

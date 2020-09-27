@@ -43,8 +43,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Glide.with(context).load(cartItemList.get(position).getFoodImage()).into(holder.img_cart);
         holder.txt_food_name.setText(new StringBuilder(cartItemList.get(position).getFoodName()));
-        holder.txt_food_price.setText(new StringBuilder().append(cartItemList.get(position).getFoodPrice()
-                +cartItemList.get(position).getFoodExtraPrice()));
+        holder.txt_food_price.setText(new StringBuilder("$").append(cartItemList.get(position).getFoodPrice() +cartItemList.get(position).getFoodExtraPrice()));
         holder.numberButton.setNumber(String.valueOf(cartItemList.get(position).getFoodQuantity()));
 
         //Event
@@ -59,6 +58,10 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return cartItemList.size();
+    }
+
+    public CartItem getItemAtPosition(int pos) {
+        return cartItemList.get(pos);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{

@@ -81,16 +81,12 @@ public class VerifyScreen extends AppCompatActivity {
         });
 
         //Resend Button ClickListener
-        resendButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                myDialog=new ProgressDialog(VerifyScreen.this);
-                myDialog.setMessage("Please wait...");
-                myDialog.show();
-                Toast.makeText(VerifyScreen.this,"OTP Resent !",Toast.LENGTH_LONG).show();
-                resendVerificationCode(phone, mResendToken);
-            }
+        resendButton.setOnClickListener(v -> {
+            myDialog=new ProgressDialog(VerifyScreen.this);
+            myDialog.setMessage("Please wait...");
+            myDialog.show();
+            Toast.makeText(VerifyScreen.this,"OTP Resent !",Toast.LENGTH_LONG).show();
+            resendVerificationCode(phone, mResendToken);
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -24,4 +24,9 @@
         android:name="com.se_p2.hungerbell.ui.cart.CartFragment"
         android:label="Cart"
         tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/nav_viewOrderFragment"
+        android:name="com.se_p2.hungerbell.ui.view_orders.ViewOrderFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_view_order" />
 </navigation>

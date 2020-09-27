@@ -2,11 +2,6 @@ package com.se_p2.hungerbell.Database;
 
 import java.util.List;
 
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-import androidx.room.Update;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;

@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +28,15 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
     Button loginButton,forgotPasswordButton,signUpButton;
     DatabaseReference user_table;
     FirebaseDatabase database;
+    FirebaseAuth mAuth;
     ProgressDialog myDialog;
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_screen);
+
+        mAuth= FirebaseAuth.getInstance();
 
         phoneNumber=findViewById(R.id.phoneNumberEditText);
         password=findViewById(R.id.passswordEditText);
@@ -80,6 +85,7 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
                     phoneNumber.setError("Enter a valid number !");
                     phoneNumber.requestFocus();
                 } else {
+                    //if (dataSnapshot.child(mAuth.getUid()).exists())
                     if (dataSnapshot.child(phoneNumber.getText().toString()).exists()) {
                         myDialog.dismiss();
                         //Get User Information
@@ -90,6 +96,7 @@ public class signInScreen extends AppCompatActivity implements View.OnClickListe
                         }else {
                             if (user != null && user.getPassword().equals(password.getText().toString())) {
                                 Intent intent=new Intent(signInScreen.this,HomeActivity.class);
+                                //Toast.makeText(getApplicationContext(),mAuth.getUid(),Toast.LENGTH_SHORT).show();
                                 Common.currentUser=user;
                                 startActivity(intent);
                             } else {

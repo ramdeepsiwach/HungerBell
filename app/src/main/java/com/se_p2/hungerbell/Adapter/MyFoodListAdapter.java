@@ -97,9 +97,9 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
 
                         @Override
                         public void onSuccess(CartItem cartItemFromDB) {
-                            if(cartItemFromDB.equals(cartItem)){
+                            if(cartItemFromDB.getFoodId().equals(cartItem.getFoodId())){
                                 //Already in databse, just update
-                                cartItemFromDB.setFoodExtraPrice(cartItem.getFoodExtraPrice());
+                                cartItemFromDB.setFoodPrice(cartItem.getFoodPrice());
                                 cartItemFromDB.setFoodAddon(cartItem.getFoodAddon());
                                 cartItemFromDB.setFoodSize(cartItem.getFoodSize());
                                 cartItemFromDB.setFoodQuantity(cartItemFromDB.getFoodQuantity()+cartItem.getFoodQuantity());
