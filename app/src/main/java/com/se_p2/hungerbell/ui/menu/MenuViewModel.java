@@ -17,12 +17,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class menuViewModel extends ViewModel implements ICategoryCallbackListener {
+public class MenuViewModel extends ViewModel implements ICategoryCallbackListener {
     private MutableLiveData<List<CategoryModel>> categoryListMutable;
     private MutableLiveData<String> messageError=new MutableLiveData<>();
     private ICategoryCallbackListener categoryCallbackListener;
 
-    public menuViewModel() {
+    public MenuViewModel() {
         categoryCallbackListener = this;
     }
 
@@ -35,7 +35,7 @@ public class menuViewModel extends ViewModel implements ICategoryCallbackListene
         return categoryListMutable;
     }
 
-    private void loadCategories() {
+    public void loadCategories() {
         final List<CategoryModel> tempList=new ArrayList<>();
         DatabaseReference categoryRef= FirebaseDatabase.getInstance().getReference(Common.CATEGORY_REF);
         categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {

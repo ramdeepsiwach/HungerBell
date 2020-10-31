@@ -54,6 +54,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -283,7 +284,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         foodDetailModel =
-                ViewModelProviders.of(this).get(FoodDetailModel.class);
+                new ViewModelProvider(this).get(FoodDetailModel.class);
         View root = inflater.inflate(R.layout.fragment_food_detail, container, false);
         unbinder= ButterKnife.bind(this,root);
         initViews();
@@ -398,27 +399,29 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle(Common.selectedFood.getName());
 
         //Size
+        if(Common.selectedFood.getSize() !=null) {
+            for (SizeModel sizeModel : Common.selectedFood.getSize()) {
+                RadioButton radioButton = new RadioButton(getContext());
+                radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                    if (b)
+                        Common.selectedFood.setUserSelectedSize(sizeModel);
+                    calculateTotalPrice();
+                });
 
-        for(SizeModel sizeModel:Common.selectedFood.getSize()){
-            RadioButton radioButton=new RadioButton(getContext());
-            radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
-                if(b)
-                    Common.selectedFood.setUserSelectedSize(sizeModel);
-                calculateTotalPrice();
-            });
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
+                        LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+                radioButton.setLayoutParams(params);
+                radioButton.setText(sizeModel.getName());
+                radioButton.setTag(sizeModel.getPrice());
 
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.MATCH_PARENT,1.0f);
-            radioButton.setLayoutParams(params);
-            radioButton.setText(sizeModel.getName());
-            radioButton.setTag(sizeModel.getPrice());
+                rdi_grp_size.addView(radioButton);
+            }
 
-            rdi_grp_size.addView(radioButton);
-        }
 
-        if(rdi_grp_size.getChildCount()>0){
-            RadioButton radioButton=(RadioButton)rdi_grp_size.getChildAt(0);
-            radioButton.setChecked(true);
+            if (rdi_grp_size.getChildCount() > 0) {
+                RadioButton radioButton = (RadioButton) rdi_grp_size.getChildAt(0);
+                radioButton.setChecked(true);
+            }
         }
         numberButton.setOnValueChangeListener((view, oldValue, newValue) -> {
             calculateTotalPrice();
@@ -441,7 +444,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
         displayPrice=totalPrice*(Integer.parseInt(numberButton.getNumber()));
         displayPrice=Math.round(displayPrice*100.0/100.0);
-        food_price.setText(new StringBuilder("$").append(Common.fomatPrice(displayPrice)).toString());
+        food_price.setText(new StringBuilder("$").append(Common.formatPrice(displayPrice)).toString());
     }
 
     @Override

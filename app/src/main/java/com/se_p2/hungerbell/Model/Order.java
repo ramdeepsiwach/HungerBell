@@ -11,7 +11,7 @@ public class Order {
     private int discount;
     private List<CartItem> cartItemList;
     private long createDate;
-    private String orderNumbber;
+    private String orderNumber;
     private int orderStatus;
 
     public Order() {
@@ -129,12 +129,12 @@ public class Order {
         this.createDate = createDate;
     }
 
-    public String getOrderNumbber() {
-        return orderNumbber;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrderNumbber(String orderNumbber) {
-        this.orderNumbber = orderNumbber;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public int getOrderStatus() {

@@ -1,19 +1,19 @@
 package com.se_p2.hungerbell.Model;
 
 public class User {
-    private String uid,name,address,phone,password;
+    private String uid,name,address,phone;
+    private double lat,lng;
 
     public User() {
     }
 
 
-    public User(String uid, String name, String address, String phone, String password) {
+    /*public User(String uid, String name, String address, String phone) {
         this.uid = uid;
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.password = password;
-    }
+    }*/
 
     public String getUid() {
         return uid;
@@ -47,12 +47,20 @@ public class User {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
+    public double getLat() {
+        return lat;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }
 

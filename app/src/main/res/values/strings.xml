@@ -71,4 +71,20 @@
     <string name="order_commentString">Order comment:</string>
     <string name="order_numberString">Order Number:</string>
     <string name="today_at_12_00_00_pmString">Today at:12:00:00 pm</string>
+    <string name="write_your_feedbackString">Write your feedback…</string>
+    <string name="phone_numberString">Phone Numbber</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAmWOjRpbC7g-vpMyxalgFgPvv7q5TB1Lg</string>
+    <string name="update_profileString">Update Profile</string>
+    <string name="empty_cartString">EMPTY CART</string>
+    <string name="total_0_0String">Total: 0.0</string>
+    <string name="place_orderString">Place Order</string>
+    <string name="okString">OK</string>
+    <string name="order_detailString">Order Detail</string>
+    <string name="quantity_1String">Quantity: 1</string>
+    <string name="addon_defaultString">Addon: Default</string>
+    <string name="size_mediumString">Size: Medium</string>
+    <string name="title_activity_tracking_order">Map</string>
+    <string name="newsString">News</string>
+
 </resources>

@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/txt_empty_cart"
-        android:text="EMPTY CART"
+        android:text="@string/empty_cartString"
         android:fontFamily="@font/montserrat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/txt_total_price"
-                android:text="Total: 0.0"
+                android:text="@string/total_0_0String"
                 android:fontFamily="@font/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_place_order"
-                android:text="Place Order"
+                android:text="@string/place_orderString"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

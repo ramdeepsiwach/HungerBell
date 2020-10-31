@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <group android:id="@+id/menu_group">
         <item
@@ -10,6 +10,16 @@
             android:title="@string/menuString"
             tools:targetApi="o" />
     </group>
+
+    <group android:id="@+id/news_group">
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_markunread_24"
+            android:iconTint="@color/white"
+            android:title="@string/newsString"
+            tools:targetApi="o" />
+    </group>
+
     <group android:id="@+id/cart_group">
         <item
             android:id="@+id/nav_cart"
@@ -18,12 +28,21 @@
             android:title="@string/cartString"
             tools:targetApi="o" />
     </group>
+
     <group android:id="@+id/orders_group">
         <item
             android:id="@+id/nav_viewOrderFragment"
             android:icon="@drawable/ic_orders"
             android:iconTint="@color/white"
             android:title="@string/ordersString"
+            tools:targetApi="o" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/nav_update_info"
+            android:icon="@drawable/ic_update_24"
+            android:iconTint="@color/white"
+            android:title="@string/update_profileString"
             tools:targetApi="o" />
     </group>
     <group android:id="@+id/user_group">

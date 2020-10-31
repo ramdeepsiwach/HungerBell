@@ -18,6 +18,7 @@ import com.se_p2.hungerbell.R;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,7 +44,6 @@ public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapte
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_category_item, parent, false));
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Uri uri=Uri.parse(categoryModelList.get(position).getImage());
@@ -61,6 +61,10 @@ public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapte
     @Override
     public int getItemCount() {
         return categoryModelList.size();
+    }
+
+    public List<CategoryModel> getListCategory(){
+        return categoryModelList;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
