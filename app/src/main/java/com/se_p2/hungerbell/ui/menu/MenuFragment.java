@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuFragment extends Fragment {
-
     Unbinder unbinder;
 
     @BindView(R.id.recycler_menu)

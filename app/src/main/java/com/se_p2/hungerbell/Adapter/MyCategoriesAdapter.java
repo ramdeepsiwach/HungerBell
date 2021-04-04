@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.se_p2.hungerbell.Callback.IRecyclerClickListener;
@@ -46,9 +47,9 @@ public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Uri uri=Uri.parse(categoryModelList.get(position).getImage());
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(Objects.requireNonNull(uri.getPath()));
-        GlideApp.with(context).load(mStorageRef).into(holder.category_image);
+        //Uri uri=Uri.parse(categoryModelList.get(position).getImage());
+        //StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(Objects.requireNonNull(uri.getPath()));
+        Glide.with(context).load(categoryModelList.get(position).getImage()).into(holder.category_image);
         holder.category_name.setText(new StringBuilder(categoryModelList.get(position).getName()));
 
         //Event listener

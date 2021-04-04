@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -322,6 +325,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView txt_address = itemView.findViewById(R.id.txt_address_detail);
 
         places_fragment = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.places_autocomplete_fragment);
+        assert places_fragment != null;
         places_fragment.setPlaceFields(placesFields);
         places_fragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -407,26 +411,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void signOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Signout").setMessage("Do you really want to sign out ?")
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("CANCEL", (dialogInterface, i) -> dialogInterface.dismiss()).setPositiveButton("OK", (dialogInterface, i) -> {
 
-                Common.selectedFood = null;
-                Common.categorySelected = null;
-                Common.currentUser = null;
-                FirebaseAuth.getInstance().signOut();
-
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
+                    Common.selectedFood = null;
+                    Common.categorySelected = null;
+                    Common.currentUser = null;
+                    AuthUI.getInstance().signOut(this)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // user is now signed out
+                            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
 

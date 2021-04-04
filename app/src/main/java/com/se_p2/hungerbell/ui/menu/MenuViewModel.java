@@ -53,7 +53,6 @@ public class MenuViewModel extends ViewModel implements ICategoryCallbackListene
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 categoryCallbackListener.onCategoryLoadFailed(error.getMessage());
-
             }
         });
     }
